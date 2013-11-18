@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E36DF6B7-BDD4-47F0-B1DB-BC2DA894F38D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kiss.Data</RootNamespace>
+    <AssemblyName>Kiss.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MySql.Data, Version=6.7.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="Npgsql">
+      <HintPath>..\Library\postgresql\bin\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.DataAccess">
+      <HintPath>..\Library\oracle\bin\Oracle.DataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess">
+      <HintPath>..\Library\oracle\bin\Oracle.ManagedDataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\Library\sqlite\bin\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ConfigurationSettingProvider.cs" />
+    <Compile Include="Core\DataAdapter\GenericObjectAdapter.cs" />
+    <Compile Include="Core\DataAdapter\XmlAttributeAdapter.cs" />
+    <Compile Include="Core\DataAdapter\XmlElementAdapter.cs" />
+    <Compile Include="Core\Reflection\EmitUtils.cs" />
+    <Compile Include="Core\Reflection\ILBuilder.cs" />
+    <Compile Include="Core\Reflection\MemberMeta.cs" />
+    <Compile Include="Core\Reflection\TypeMeta.cs" />
+    <Compile Include="Core\Reflection\TypeMetaFactory.cs" />
+    <Compile Include="Core\TypeSystem.cs" />
+    <Compile Include="DataReaderConvert.cs" />
+    <Compile Include="DataRecordDynamicWrapper.cs" />
+    <Compile Include="FieldReader.cs" />
+    <Compile Include="IContentListener.cs" />
+    <Compile Include="NativeSchemaProvider.cs" />
+    <Compile Include="SchemaProviderRepository.cs" />
+    <Compile Include="TableGate.cs" />
+    <Compile Include="Core\Adapter.cs" />
+    <Compile Include="Ansi.cs" />
+    <Compile Include="Core\DataAdapter\DictionaryAdapter.cs" />
+    <Compile Include="Core\IDataObjectAdapter.cs" />
+    <Compile Include="Core\NativeMethods.cs" />
+    <Compile Include="Core\StringUtils.cs" />
+    <Compile Include="DataConvert.cs" />
+    <Compile Include="DataExtension.cs" />
+    <Compile Include="DbContent_Command.cs" />
+    <Compile Include="DbTypeEntension.cs" />
+    <Compile Include="Defaults.cs" />
+    <Compile Include="Driver\SqlSchema.cs" />
+    <Compile Include="Driver\MsSqlSchema.cs" />
+    <Compile Include="Driver\MySqlCompiler.cs" />
+    <Compile Include="Driver\SqlDialecter.cs" />
+    <Compile Include="Driver\MsSql2012Compiler.cs" />
+    <Compile Include="Driver\MsSqlCompiler.cs" />
+    <Compile Include="Driver\MsSqlDialecter.cs" />
+    <Compile Include="Driver\MySqlDialecter.cs" />
+    <Compile Include="Driver\MySqlDriver.cs" />
+    <Compile Include="Driver\OracleDialecter.cs" />
+    <Compile Include="Driver\OracleDriver.cs" />
+    <Compile Include="Driver\OracleManagedDriver.cs" />
+    <Compile Include="Driver\MsSqlDriver.cs" />
+    <Compile Include="Driver\PostgresDialecter.cs" />
+    <Compile Include="Driver\PostgresDriver.cs" />
+    <Compile Include="Driver\SqlCompiler.cs" />
+    <Compile Include="Driver\IDialecter.cs" />
+    <Compile Include="Driver\SqlDriver.cs" />
+    <Compile Include="Driver\SQLiteCompiler.cs" />
+    <Compile Include="Driver\SQLiteDialecter.cs" />
+    <Compile Include="Driver\SQLiteDriver.cs" />
+    <Compile Include="Driver\PostgresCompiler.cs" />
+    <Compile Include="Driver\OracleCompiler.cs" />
+    <Compile Include="Driver\MySqlSchema.cs" />
+    <Compile Include="Driver\OracleSchema.cs" />
+    <Compile Include="Driver\OracleManagedSchema.cs" />
+    <Compile Include="Driver\SQLiteSchema.cs" />
+    <Compile Include="Driver\PostgresSchema.cs" />
+    <Compile Include="ExecuteResult.cs" />
+    <Compile Include="Expression\Aggregate.cs" />
+    <Compile Include="Expression\Column.cs" />
+    <Compile Include="DbContent.cs" />
+    <Compile Include="Driver\SqlDriverFactory.cs" />
+    <Compile Include="DbStrategy.cs" />
+    <Compile Include="Expression\Condition.cs" />
+    <Compile Include="Expression\ConditionList.cs" />
+    <Compile Include="Expression\Delete.cs" />
+    <Compile Include="Expression\ExpressionExtension.cs" />
+    <Compile Include="Expression\Field.cs" />
+    <Compile Include="Expression\From.cs" />
+    <Compile Include="Expression\Function.cs" />
+    <Compile Include="Expression\GroupBy.cs" />
+    <Compile Include="Expression\Having.cs" />
+    <Compile Include="Expression\Insert.cs" />
+    <Compile Include="Expression\IRawSql.cs" />
+    <Compile Include="Expression\ISqlExpression.cs" />
+    <Compile Include="Expression\Join.cs" />
+    <Compile Include="Expression\JoinType.cs" />
+    <Compile Include="Expression\MarkText.cs" />
+    <Compile Include="Expression\NodeType.cs" />
+    <Compile Include="Expression\OrderBy.cs" />
+    <Compile Include="Expression\OrderByField.cs" />
+    <Compile Include="Expression\Parameter.cs" />
+    <Compile Include="Expression\Procedure.cs" />
+    <Compile Include="Expression\Query.cs" />
+    <Compile Include="Expression\RawSql.cs" />
+    <Compile Include="Expression\RawValue.cs" />
+    <Compile Include="Expression\Select.cs" />
+    <Compile Include="Expression\Set.cs" />
+    <Compile Include="Expression\SortDirection.cs" />
+    <Compile Include="Expression\SqlFragment.cs" />
+    <Compile Include="Expression\SqlNull.cs" />
+    <Compile Include="Expression\SqlOperator.cs" />
+    <Compile Include="Expression\Table.cs" />
+    <Compile Include="Expression\Text.cs" />
+    <Compile Include="Expression\Update.cs" />
+    <Compile Include="Expression\Where.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IDbRouter.cs" />
+    <Compile Include="IDbSetting.cs" />
+    <Compile Include="IDbSchemaProvider.cs" />
+    <Compile Include="ITableShard.cs" />
+    <Compile Include="Core\KTimer.cs" />
+    <Compile Include="Schema\SqlField.cs" />
+    <Compile Include="Trace.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Schema\SqlColumn.cs" />
+    <Compile Include="Schema\SqlTable.cs" />
+    <Compile Include="Schema\SqlParameter.cs" />
+    <Compile Include="Schema\SqlProcedure.cs" />
+    <Compile Include="SqlType.cs" />
+    <Compile Include="Driver\SqlWriter.cs" />
+    <Compile Include="Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Core\DataAdapter\readme.txt" />
+    <Content Include="readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Entity\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

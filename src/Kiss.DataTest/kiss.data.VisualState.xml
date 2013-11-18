@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
+  <TopNode>[0-1000]F:\sdming\KissData\Kiss.DataTest\kiss.data.nunit</TopNode>
+  <SelectedNode>[0-1035]Kiss.DataTest.Expression.TestExpression.TestDelete</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1000]F:\sdming\KissData\Kiss.DataTest\kiss.data.nunit" Expanded="true" />
+    <Node UniqueName="[0-1012]Kiss" Expanded="true" />
+    <Node UniqueName="[0-1013]Kiss.DataTest" Expanded="true" />
+    <Node UniqueName="[0-1015]Kiss.DataTest.Driver" Expanded="true" />
+    <Node UniqueName="[0-1014]Kiss.DataTest.Expression" Expanded="true" />
+    <Node UniqueName="[0-1027]Kiss" Expanded="true" />
+    <Node UniqueName="[0-1028]Kiss.DataTest" Expanded="true" />
+    <Node UniqueName="[0-1030]Kiss.DataTest.Driver" Expanded="true" />
+    <Node UniqueName="[0-1029]Kiss.DataTest.Expression" Expanded="true" />
+    <Node UniqueName="[0-1041]F:\sdming\KissData\Kiss.DataTest\bin\Debug\Kiss.DataTest.exe" Expanded="true" />
+    <Node UniqueName="[0-1042]Kiss" Expanded="true" />
+    <Node UniqueName="[0-1043]Kiss.DataTest" Expanded="true" />
+    <Node UniqueName="[0-1045]Kiss.DataTest.Driver" Expanded="true" />
+    <Node UniqueName="[0-1036]Kiss.DataTest.Driver.TestMsSql" Expanded="true" />
+    <Node UniqueName="[0-1044]Kiss.DataTest.Expression" Expanded="true" />
+    <Node UniqueName="[0-1031]Kiss.DataTest.Expression.TestExpression" Expanded="true" />
+  </Nodes>
+</VisualState>

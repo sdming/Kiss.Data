@@ -1,0 +1,37 @@
+﻿todo:
+===
+storte procedure
+procedure proxy
+ActiveRecord
+Shard, Route
+custome config
+custome mapping
+
+
+FAQ
+===
+
+实体字段名要和表名一致:
+故意的， 取不一样的名字有什么好处？ 当然你也可以自定义映射关系。
+
+不追求性能:
+不追求某一项的性能指标，加班到半夜和凌晨起来改bug和性能基本上没什么关系
+
+不支持多表查询:
+故意的， 没有必要， 如果有复杂的多表关联还是改掉为宜，或者用view
+
+不支持缓存:
+不支持，缓存不应该在数据层处理
+
+不支持代码生成:
+不支持，如果可以代码生成，就基本上可以统一处理
+
+
+-----------------------------
+分库、分表
+
+db logical name-->db config name
+db config name-->config
+
+routig...
+以@开头表示是一个表达式
