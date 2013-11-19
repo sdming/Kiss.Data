@@ -74,6 +74,8 @@ namespace Kiss.Data.Driver
             return " ; ";
         }
 
+
         // "SELECT CURRENT_TIMESTAMP"
+        //SELECT SCOPE_IDENTITY()
     }
 }

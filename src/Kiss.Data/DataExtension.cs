@@ -33,6 +33,33 @@ namespace Kiss.Data
             return obj;
         }
 
+        public static object ToScalar(this IDataReader reader)
+        {
+            if (reader == null)
+            {
+                throw new ArgumentNullException("reader");
+            }
+            if (reader.IsClosed || reader.FieldCount == 0)
+            {
+                throw new Exception("reader is closed or reader does not has fields");
+            }
+
+            if (reader.FieldCount <=0 )
+            {
+                throw new Exception(string.Format("field count is :{0}", reader.FieldCount));
+            }
+
+            object v = null;
+            while(reader.Read())
+            {
+                if(!reader.IsDBNull(0))
+                {
+                    v = reader.GetValue(0);
+                }
+            }
+            return v;
+        }
+
         public static int ColumnHash(IDataReader reader)
         {
             //The C Programming Language

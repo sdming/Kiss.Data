@@ -62,7 +62,7 @@ namespace Kiss.Data.Driver
         /// <returns></returns>
         public string QuoteIdentifer(string name)
         {
-            return name;
+            return name.ToUpper();
         }
 
         /// <summary>

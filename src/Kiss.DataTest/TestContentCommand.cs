@@ -46,12 +46,6 @@ namespace Kiss.DataTest
         }
         #endregion
 
-        #region procedure
-        //noquery
-        //reader
-        //Scalar
-        //output
-        #endregion
 
         #region text
         

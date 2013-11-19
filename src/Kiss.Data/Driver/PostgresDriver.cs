@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Npgsql;
 using System.Data.Common;
+using System.Data;
 
 namespace Kiss.Data.Driver
 {
@@ -128,6 +129,29 @@ namespace Kiss.Data.Driver
                     p.Precision = byte.MaxValue;
                 }
             }
+        }
+
+        /// <summary>
+        /// SetParameterProviderDbType
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <param name="providerDbType"></param>
+        protected override void SetParameterProviderDbType(DbParameter parameter, int providerDbType)
+        {
+            NpgsqlParameter p = (NpgsqlParameter)parameter;
+            p.NpgsqlDbType = (NpgsqlTypes.NpgsqlDbType)providerDbType;
+        }
+
+        public override System.Data.DbType NativeTypeToDbType(string dataType)
+        {
+            switch (dataType.ToLowerInvariant())
+            {
+                case "timestamp":
+                    return DbType.Binary;
+                default:
+                    return base.NativeTypeToDbType(dataType);
+            }
+            
         }
     }
 }

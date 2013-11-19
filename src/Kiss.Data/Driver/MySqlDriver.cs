@@ -107,6 +107,17 @@ namespace Kiss.Data.Driver
         }
 
         /// <summary>
+        /// SetParameterProviderDbType
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <param name="providerDbType"></param>
+        protected override void SetParameterProviderDbType(DbParameter parameter, int providerDbType)
+        {
+            MySqlParameter p = (MySqlParameter)parameter;
+            p.MySqlDbType = (MySqlDbType)providerDbType;
+        }
+
+        /// <summary>
         /// SetParameterPrecision
         /// </summary>
         /// <param name="parameter"></param>

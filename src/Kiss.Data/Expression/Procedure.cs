@@ -23,7 +23,7 @@ namespace Kiss.Data.Expression
         public List<Parameter> Parameters { get; set; }
 
         /// <summary>
-        /// TextCommand
+        /// store procedure command
         /// </summary>
         /// <param name="commandText"></param>
         public Procedure(string procedureName)

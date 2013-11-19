@@ -11,3 +11,25 @@
   `cbytes` varbinary(1000) DEFAULT NULL,
   PRIMARY KEY (`pk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DELIMITER //
+CREATE PROCEDURE `usp_query`(p_cint int)
+BEGIN         
+   SELECT * FROM `ttable` WHERE `cint` = p_cint;
+END//
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE `usp_exec`(p_cint int)
+BEGIN         
+   DELETE FROM `ttable` WHERE `cint` = p_cint;
+END//
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE `usp_inout`(IN x int, INOUT y int, OUT sum int)
+BEGIN         
+  SET sum = x + y;
+  SET y = 2 * y;
+END//
+DELIMITER ;

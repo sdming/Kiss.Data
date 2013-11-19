@@ -123,5 +123,28 @@ namespace Kiss.Data.Schema
                 return null;
             }
         }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat("{{\"Name\":\"{0}\"", Name);
+            sb.Append(",\"Parameters\":[ ");
+
+            bool split = false;
+            if (Parameters != null)
+            {
+                foreach (var p in Parameters)
+                {
+                    if (split)
+                    {
+                        sb.Append(",");
+                    }
+                    split = true;
+                    sb.Append(p);
+                }
+            }
+            sb.Append("] }");
+            return sb.ToString();
+        }
     }
 }

@@ -6,7 +6,7 @@ ActiveRecord
 Shard, Route
 custome config
 custome mapping
-
+SCOPE_IDENTITY()
 
 FAQ
 ===

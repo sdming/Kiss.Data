@@ -303,6 +303,15 @@ namespace Kiss.Data.Driver
             parameter.Value = value;
         }
 
+        /// <summary>
+        /// SetParameterNumeric
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <param name="value"></param>
+        protected virtual void SetParameterNumeric(DbParameter parameter, object value)
+        {
+            parameter.Value = value;
+        }
 
         /// <summary>
         /// SetParameterValue
@@ -337,6 +346,11 @@ namespace Kiss.Data.Driver
                 case DbType.AnsiString:
                 case DbType.AnsiStringFixedLength:
                     SetParameterString(parameter, value);
+                    return;
+                case DbType.Decimal:
+                case DbType.Double:
+                case DbType.Single:
+                    SetParameterNumeric(parameter, value);
                     return;
                 default:
                     break;
@@ -450,6 +464,41 @@ namespace Kiss.Data.Driver
         }
 
         /// <summary>
+        /// SetParameterProviderType
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <param name="providerDbType"></param>
+        /// <param name="size"></param>
+        /// <param name="precision"></param>
+        /// <param name="scale"></param>
+        protected virtual void SetParameterProviderType(DbParameter parameter, int providerDbType, int? size, byte? precision, byte? scale)
+        {
+            SetParameterProviderDbType(parameter, providerDbType);
+            if (size.HasValue)
+            {
+                parameter.Size = size.Value;
+            }
+            else
+            {
+                if (parameter.DbType.IsString() || parameter.DbType == DbType.Binary)
+                {
+                    parameter.Size = Int32.MaxValue;
+                }
+            }
+            SetParameterPrecision(parameter, precision, scale);
+        }
+
+        /// <summary>
+        /// SetParameterProviderDbType
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <param name="providerDbType"></param>
+        protected virtual void SetParameterProviderDbType(DbParameter parameter, int providerDbType)
+        {
+
+        }
+
+        /// <summary>
         /// CreateParameter
         /// </summary>
         /// <param name="p"></param>
@@ -462,7 +511,14 @@ namespace Kiss.Data.Driver
             {
                 parameter = CreateParameter();
                 parameter.ParameterName = dialecter.QuoteParameter(p.Name);
-                SetParameterType(parameter, p.DbType.Value, p.Size, p.Precision, p.Scale);
+                if (p.ProviderDbType.HasValue && p.ProviderDbType.Value > 0)
+                {
+                    SetParameterProviderType(parameter, p.ProviderDbType.Value, p.Size, p.Precision, p.Scale);
+                }
+                else
+                {
+                    SetParameterType(parameter, p.DbType.Value, p.Size, p.Precision, p.Scale);
+                }
                 SetParameterValue(parameter, p.Value);
             }
             else
@@ -479,7 +535,7 @@ namespace Kiss.Data.Driver
         /// <param name="procedure"></param>
         /// <param name="schemaProvider"></param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:检查 SQL 查询是否存在安全漏洞")]
-        protected DbCommand CompileProcedure(Procedure procedure)
+        protected virtual DbCommand CompileProcedure(Procedure procedure)
         {
             if (string.IsNullOrEmpty(procedure.Name))
             {
@@ -528,8 +584,179 @@ namespace Kiss.Data.Driver
 
         public virtual SqlProcedure GetProcedure(string procedureName, string connectionString)
         {
-            throw new Exception("GetProcedure:" + procedureName);
+            return GetSchemaProvider().GetProcedure(this, procedureName, connectionString);
         }
+
+        #endregion
+
+        #region type mapping
+        public virtual DbType NativeTypeToDbType(string dataType)
+        {
+            switch(dataType.ToLowerInvariant())
+            {
+                case "name":
+                case "oidvector":
+                case "refcursor":
+                case "ref":
+                case "char":
+                case "character":
+                case "longchar":
+                case "nchar":
+                case "varchar":
+                case "varchar2":
+                case "varyingcharacter":
+                case "nvarchar":
+                case "nvarchar2":
+                case "longvarchar":
+                case "nativecharacter": 
+                case "native character": 
+                case  "nativevaryingcharacter": 
+                case "character varying":
+                case "text":
+                case "ntext":
+                case "longtext":
+                case "mediumtext":
+                case "tinytext":
+                case "bpchar":
+                case "clob":
+                case "nclob":   
+                case "rowid":
+                case "urowid":  
+                case "xmltype":
+                case "sysname":
+                case "long":
+                case "sql_variant":
+                case "note":
+                case "memo":
+                case "string":
+                    return DbType.String;
+                case "long raw":
+                    return DbType.Binary;
+                case "bytea":
+                case "bit varying":
+                case "binary":
+                case "varbinary":
+                case "rowversion":
+                case "blob":
+                case "tinyblob":
+                case "mediumblob":
+                case "oleobject":
+                case "longblob":
+                case "raw":
+                case "image":
+                case "general":
+                    return DbType.Binary;
+                case "bit":
+                case "bool":
+                case "boolean":
+                case "yesno":
+                case "logical":
+                    return DbType.Boolean;
+                case "tinyint":
+                    return DbType.Byte;
+                case "tinyint unsigned":
+                    return DbType.SByte;
+                case "int2":
+                case "smallint":
+                    return DbType.Int16;
+                case "uint16":
+                case "smallint unsigned":
+                    return DbType.UInt16;
+                case "int4":
+                case "int":
+                case "mediumint":
+                    return DbType.Int32;
+                case "uint32":
+                case "integer unsigned":
+                    return DbType.UInt32;
+                case "int8":                
+                case "bigint":
+                case "integer":
+                case "bigserial":
+                case "serial":
+                case "smallserial":
+                    return DbType.Int64;
+                case "uint64":
+                case "bigint unsigned":
+                    return DbType.UInt64;
+                case "autoincrement":
+                case "identity":
+                case "counter":
+                    return DbType.Int64;
+                case "float4":
+                case "real":
+                    return DbType.Single;
+                case "float8":
+                case "float":
+                case "double":
+                case "double precision":
+                    return DbType.Double;
+                case "numeric":
+                case "decimal":
+                case "newdecimal":
+                case "number":                    
+                    return DbType.Decimal;       
+                case "binary_double":
+                case "binary_float":
+                case "binary_integer":
+                    return DbType.Decimal;
+                case "money":
+                case "smallmoney":
+                    return DbType.Decimal;
+                case "currency":
+                    return DbType.Currency;
+                case "date":
+                case "smalldate":
+                    return DbType.DateTime;
+                case "timetz":                
+                case "abstime":       
+                case "datetime":       
+                case "smalldatetime":
+                    return DbType.DateTime;
+                case "timestamp":
+                case "timestamp with time zone":
+                case "timestamp without time zone":
+                case "timestamp with local time zone":
+                    return DbType.DateTime;                
+                case "time":
+                    return DbType.Time;
+                case "timestamptz":
+                    return DbType.DateTime;
+                case "datetime2":
+                    return DbType.DateTime2;
+                case "datetimeoffset":
+                    return DbType.DateTimeOffset;
+                case "year":
+                    return DbType.Int32;
+                case "interval day to second":
+                    return DbType.Int64;
+                case "interval year to month":
+                    return DbType.Int64;
+                case "uuid":
+                case "guid":
+                case "uniqueidentifier":
+                    return DbType.Guid;
+                case "xml":
+                    return DbType.Xml;
+                case "interval":
+                    return DbType.Object;
+                case "array":
+                    return DbType.Object;
+                case "point":
+                case "box":
+                case "path":
+                case "lseg":
+                case "polygon":
+                case "circle":
+                case "line":
+                case "inet":
+                case "macaddr":
+                    return DbType.Object;
+            }
+
+            return DbType.Object;
+        }
+       
 
         #endregion
 
@@ -537,6 +764,7 @@ namespace Kiss.Data.Driver
         {
             
         }
+
 
     }
 }

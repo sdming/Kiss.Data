@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes.cs" />
     <Compile Include="ConfigurationSettingProvider.cs" />
     <Compile Include="Core\DataAdapter\GenericObjectAdapter.cs" />
     <Compile Include="Core\DataAdapter\XmlAttributeAdapter.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="FieldReader.cs" />
     <Compile Include="IContentListener.cs" />
     <Compile Include="NativeSchemaProvider.cs" />
+    <Compile Include="FunctionProxy.cs" />
     <Compile Include="SchemaProviderRepository.cs" />
     <Compile Include="TableGate.cs" />
     <Compile Include="Core\Adapter.cs" />

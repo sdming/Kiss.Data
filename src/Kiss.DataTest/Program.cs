@@ -9,6 +9,7 @@ using System.IO;
 using Kiss.Data;
 using Kiss.DataTest.Expression;
 using Kiss.DataTest.Driver;
+using System.Configuration;
 
 namespace Kiss.DataTest
 {
@@ -21,7 +22,7 @@ namespace Kiss.DataTest
 
         static void Main(string[] args)
         {
-            
+          
             RunAll();
             Console.WriteLine("press ENTER to exit");
             Console.ReadLine();
@@ -50,6 +51,11 @@ namespace Kiss.DataTest
                 writer.Flush();
                 string log = sb.ToString();
                 Console.WriteLine(log);
+
+                if (log.Contains("error") || log.Contains("fail"))
+                {
+                    Console.WriteLine("\r\n error happend.");
+                }
             }
         }
 
@@ -62,6 +68,11 @@ namespace Kiss.DataTest
                 writer.Flush();
                 string log = sb.ToString();
                 Console.WriteLine(log);
+
+                if (log.Contains("error") || log.Contains("fail"))
+                {
+                    Console.WriteLine("\r\n error happend.");
+                }
             }
         }
 

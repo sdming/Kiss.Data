@@ -292,7 +292,7 @@ WHERE
         }
 
         [Test]
-        public void TestSchema()
+        public void TestTableSchema()
         {
             var driver = Kiss.Data.Driver.SqlDriverFactory.SqlClient();
             var table = driver.GetTable("ttable", ConfigurationManager.ConnectionStrings[dbName].ConnectionString);
@@ -370,5 +370,27 @@ WHERE
             Assert.True(cbytes.IsKey == false, "cbytes.IsKey");
         }
 
+
+        [Test]
+        public void TestProcedureSchema()
+        {
+            var driver = Kiss.Data.Driver.SqlDriverFactory.SqlClient();
+            var procedure = driver.GetProcedure("usp_inout", ConfigurationManager.ConnectionStrings[dbName].ConnectionString);
+
+            var p1 = procedure.FindParameter("x");
+            Assert.True(p1.Name == "x", "x.Name");
+            Assert.True(p1.Direction == ParameterDirection.Input, "x.Direction");
+            Assert.True(p1.DbType == DbType.Int32, "x.DbType");
+
+            var p2 = procedure.FindParameter("y");
+            Assert.True(p2.Name == "y", "x.Name");
+            Assert.True(p2.Direction == ParameterDirection.InputOutput, "x.Direction");
+            Assert.True(p2.DbType == DbType.Int32, "x.DbType");
+
+            var p3 = procedure.FindParameter("sum");
+            Assert.True(p3.Name == "sum", "x.Name");
+            Assert.True(p3.Direction == ParameterDirection.InputOutput, "x.Direction");
+            Assert.True(p3.DbType == DbType.Int32, "x.DbType");
+        }
     }
 }

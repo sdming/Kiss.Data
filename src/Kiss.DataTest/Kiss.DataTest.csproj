@@ -103,6 +103,7 @@
     <Compile Include="Driver\TestInsert.cs" />
     <Compile Include="Driver\TestMsSql.cs" />
     <Compile Include="Driver\TestMySql.cs" />
+    <Compile Include="Driver\TestProcedure.cs" />
     <Compile Include="Driver\TestSQLite.cs" />
     <Compile Include="Driver\TestPostgres.cs" />
     <Compile Include="Driver\TestOracle.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestContentCommand.cs" />
+    <Compile Include="TestProxy.cs" />
     <Compile Include="TestTableGate.cs" />
     <Compile Include="TestTypeConvert.cs" />
     <Compile Include="TypeData.cs" />

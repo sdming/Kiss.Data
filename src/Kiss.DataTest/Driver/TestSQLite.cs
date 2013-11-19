@@ -291,7 +291,7 @@ WHERE
         }
 
         [Test]
-        public void TestSchema()
+        public void TestTableSchema()
         {
             var driver = Kiss.Data.Driver.SqlDriverFactory.Sqlite();
             var table = driver.GetTable("ttable", ConfigurationManager.ConnectionStrings[dbName].ConnectionString);

@@ -117,12 +117,18 @@ namespace Kiss.Data
                     Parameter pv = new Parameter();
                     p.Copy(pv);
 
+                    if (p.Direction == ParameterDirection.ReturnValue)
+                    {
+                        pv.Value = DBNull.Value;
+                        continue;
+                    }
+
                     if (parameters != null && parameters.Contains(p.Name))
                     {
                         pv.Value = parameters.Get(p.Name);
                         exp.Set(pv);
                     }
-                    else if (p.Direction == ParameterDirection.Output || p.Direction == ParameterDirection.ReturnValue)
+                    else if (p.Direction == ParameterDirection.InputOutput ||  p.Direction == ParameterDirection.Output || p.Direction == ParameterDirection.ReturnValue)
                     {
                         pv.Value = DBNull.Value;
                         exp.Set(pv);
@@ -149,6 +155,7 @@ namespace Kiss.Data
             var schema = GetProcedure(procedureName);
             Procedure exp = new Procedure(schema.Name);
 
+            int j = -1;
             if (schema.Parameters != null)
             {
                 for (var i = 0; i < schema.Parameters.Count; i++)
@@ -156,8 +163,15 @@ namespace Kiss.Data
                     var p = schema.Parameters[i];
                     Parameter pv = new Parameter();
                     p.Copy(pv);
+                    
+                    if (p.Direction == ParameterDirection.ReturnValue || p.Direction == ParameterDirection.Output)
+                    {
+                        pv.Value = DBNull.Value;
+                        continue;
+                    }
 
-                    if (parameters != null && parameters.Length > i)
+                    j++;
+                    if (parameters != null && parameters.Length > j)
                     {
                         pv.Value = parameters[i];
                         exp.Set(pv);
@@ -194,11 +208,40 @@ namespace Kiss.Data
         /// </summary>
         /// <param name="procedureName"></param>
         /// <param name="parameters"></param>
+        /// <param name="ignoreSchema"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public int ProcedureNonQuery(string procedureName, IDataObjectAdapter parameters, bool ignoreSchema, out IExecuteResult result)
+        {
+            var exp = BuildProcedure(procedureName, parameters, ignoreSchema);
+            var i = ExecuteNonQuery(exp, out result);
+            return i;
+        }
+
+        /// <summary>
+        /// ProcedureNonQuery
+        /// </summary>
+        /// <param name="procedureName"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
         public int ProcedureNonQuery(string procedureName, IDataObjectAdapter parameters)
         {
             var exp = BuildProcedure(procedureName, parameters, false);
             return ExecuteNonQuery(exp);
+        }
+
+        /// <summary>
+        /// ProcedureNonQuery
+        /// </summary>
+        /// <param name="procedureName"></param>
+        /// <param name="parameters"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public int ProcedureNonQuery(string procedureName, IDataObjectAdapter parameters, out IExecuteResult result)
+        {
+            var exp = BuildProcedure(procedureName, parameters, false);
+            var i = ExecuteNonQuery(exp, out result);
+            return i;
         }
 
         /// <summary>
@@ -219,11 +262,38 @@ namespace Kiss.Data
         /// </summary>
         /// <param name="procedureName"></param>
         /// <param name="parameters"></param>
+        /// <param name="ignoreSchema"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public IDataReader ProcedureReader(string procedureName, IDataObjectAdapter parameters, bool ignoreSchema, out IExecuteResult result)
+        {
+            var exp = BuildProcedure(procedureName, parameters, ignoreSchema);
+            return ExecuteReader(exp, out result);
+        }
+
+        /// <summary>
+        /// ProcedureReader
+        /// </summary>
+        /// <param name="procedureName"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
         public IDataReader ProcedureReader(string procedureName, IDataObjectAdapter parameters)
         {
             var exp = BuildProcedure(procedureName, parameters, false);
             return ExecuteReader(exp);
+        }
+
+        /// <summary>
+        /// ProcedureReader
+        /// </summary>
+        /// <param name="procedureName"></param>
+        /// <param name="parameters"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public IDataReader ProcedureReader(string procedureName, IDataObjectAdapter parameters, out IExecuteResult result)
+        {
+            var exp = BuildProcedure(procedureName, parameters, false);
+            return ExecuteReader(exp, out result);
         }
 
         /// <summary>
@@ -244,11 +314,38 @@ namespace Kiss.Data
         /// </summary>
         /// <param name="procedureName"></param>
         /// <param name="parameters"></param>
+        /// <param name="ignoreSchema"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public object ProcedureScalar(string procedureName, IDataObjectAdapter parameters, bool ignoreSchema, out IExecuteResult result)
+        {
+            var exp = BuildProcedure(procedureName, parameters, ignoreSchema);
+            return ExecuteScalar(exp, out result);
+        }
+
+        /// <summary>
+        /// ProcedureScalar
+        /// </summary>
+        /// <param name="procedureName"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
         public object ProcedureScalar(string procedureName, IDataObjectAdapter parameters)
         {
             var exp = BuildProcedure(procedureName, parameters, false);
             return ExecuteScalar(exp);
+        }
+
+        /// <summary>
+        /// ProcedureScalar
+        /// </summary>
+        /// <param name="procedureName"></param>
+        /// <param name="parameters"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public object ProcedureScalar(string procedureName, IDataObjectAdapter parameters, out IExecuteResult result)
+        {
+            var exp = BuildProcedure(procedureName, parameters, false);
+            return ExecuteScalar(exp, out result);
         }
 
         /// <summary>
@@ -444,7 +541,7 @@ namespace Kiss.Data
         public IDataReader ExecuteReader(DbCommand command)
         {
             IDataReader result = null;
-            Execute(command, (x) => result = x.ExecuteReader(CommandBehavior.CloseConnection), true);
+            Execute(command, (x) => result = x.ExecuteReader(CommandBehavior.CloseConnection), false);
             return result;
         }
 
@@ -458,9 +555,9 @@ namespace Kiss.Data
         public IDataReader ExecuteReader(DbCommand command, CommandBehavior behavior, bool cached)
         {
             IDataReader result = null;
-            bool release = (behavior & CommandBehavior.CloseConnection) == CommandBehavior.CloseConnection;
+            //bool release = (behavior & CommandBehavior.CloseConnection) == CommandBehavior.CloseConnection;
 
-            Execute(command, (x) => result = x.ExecuteReader(behavior), release);
+            Execute(command, (x) => result = x.ExecuteReader(behavior), false);
             if (cached)
             {
                 DataTable dt = Utils.Read2Table(result);
@@ -519,7 +616,7 @@ namespace Kiss.Data
         {
             var command = Compile(expression);
             var i = ExecuteNonQuery(command);
-            result = new ExecuteResult(command.Parameters, Driver().Dialecter.ParameterPrefix());
+            result = new ExecuteResult(command.Parameters, Driver().Dialecter.ParameterPrefix(), i);
             return i;
         }
 
@@ -616,7 +713,7 @@ namespace Kiss.Data
         {
             var command = Compile(expression);
             var i = ExecuteScalar(command);
-            result = new ExecuteResult(command.Parameters, Driver().Dialecter.ParameterPrefix());
+            result = new ExecuteResult(command.Parameters, Driver().Dialecter.ParameterPrefix(), -1);
             return i;
         }
 
@@ -703,7 +800,7 @@ namespace Kiss.Data
         {
             var command = Compile(expression);
             var i = ExecuteReader(command);
-            result = new ExecuteResult(command.Parameters, Driver().Dialecter.ParameterPrefix());
+            result = new ExecuteResult(command.Parameters, Driver().Dialecter.ParameterPrefix(), i.RecordsAffected);
             return i;
         }
 
@@ -807,7 +904,7 @@ namespace Kiss.Data
                 {
                     Listener.Executing(this, command);
                 }
-
+   
                 action(command);
                 
                 if (Trace.Level >= Tracelevel.Debug)

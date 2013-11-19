@@ -5,6 +5,7 @@ using System.Text;
 using System.Data.Common;
 using Oracle.ManagedDataAccess.Client;
 using System.Data;
+using Kiss.Data.Expression;
 
 namespace Kiss.Data.Driver
 {
@@ -177,6 +178,32 @@ namespace Kiss.Data.Driver
             }
         }
 
+        /// <summary>
+        /// SetParameterNumeric
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <param name="value"></param>
+        protected override void SetParameterNumeric(DbParameter parameter, object value)
+        {
+            OracleParameter p = (OracleParameter)parameter;
+            if (p.DbType == DbType.Decimal && p.Precision == 0 && p.Scale == 0)
+            {
+                p.Precision = 38;
+                p.Scale = 127;
+            }
+            parameter.Value = value;
+        }
+
+        /// <summary>
+        /// SetParameterProviderDbType
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <param name="providerDbType"></param>
+        protected override void SetParameterProviderDbType(DbParameter parameter, int providerDbType)
+        {
+            OracleParameter p = (OracleParameter)parameter;
+            p.OracleDbType = (OracleDbType)providerDbType;
+        }
 
         /// <summary>
         /// SetParameterPrecision
@@ -194,7 +221,7 @@ namespace Kiss.Data.Driver
                 }
                 else
                 {
-                    p.Scale = byte.MaxValue;
+                    p.Scale = 127;
                 }
                 if (precision.HasValue)
                 {
@@ -202,9 +229,42 @@ namespace Kiss.Data.Driver
                 }
                 else
                 {
-                    p.Precision = byte.MaxValue;
+                    p.Precision = 38;
                 }
             }
+        }
+
+        /// <summary>
+        /// compile procedure
+        /// </summary>
+        /// <param name="procedure"></param>
+        /// <param name="schemaProvider"></param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:检查 SQL 查询是否存在安全漏洞")]
+        protected override DbCommand CompileProcedure(Procedure procedure)
+        {
+            if (string.IsNullOrEmpty(procedure.Name))
+            {
+                throw new ArgumentException("procedure name can not be empty");
+            }
+
+            var parameterPrefix = Dialecter.ParameterPrefix();
+            DbCommand command = CreateCommand();
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = procedure.Name;
+
+            if (procedure.Parameters != null)
+            {
+                foreach (var p in procedure.Parameters)
+                {
+                    DbParameter parameter = CreateParameter(p);
+                    if (parameter.ParameterName[0] == parameterPrefix)
+                    {
+                        parameter.ParameterName = parameter.ParameterName.Substring(1);
+                    }
+                    command.Parameters.Add(parameter);
+                }
+            }
+            return command;
         }
     }
 }

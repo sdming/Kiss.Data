@@ -84,6 +84,9 @@ namespace Kiss.DataTest
                 {
                     continue;
                 }
+
+                Console.WriteLine("run:{0}", t.Name);
+
                 writer.WriteLine("\r\nType: {0} ", t.Name);
                 writer.WriteLine("===  ");
                 Object instance = Activator.CreateInstance(t);
@@ -96,7 +99,7 @@ namespace Kiss.DataTest
         public static void RunAllMethods(TextWriter writer, object obj)
         {
             var type = obj.GetType();
-            writer.WriteLine("run tests: {0} ", type.Name);
+            //writer.WriteLine("run tests: {0} ", type.Name);
 
             var methods = type.GetMethods();
             foreach (var m in methods)

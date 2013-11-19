@@ -293,7 +293,7 @@ CINT = :P_0
 
 
         [Test]
-        public void TestSchema()
+        public void TestTableSchema()
         {
             var driver = Kiss.Data.Driver.SqlDriverFactory.OracleManaged();
             var table = driver.GetTable("ttable", ConfigurationManager.ConnectionStrings[dbName].ConnectionString);
@@ -372,5 +372,26 @@ CINT = :P_0
             Assert.True(cbytes.IsKey == false, "cbytes.IsKey");
         }
 
+        [Test]
+        public void TestProcedureSchema()
+        {
+            var driver = Kiss.Data.Driver.SqlDriverFactory.OracleManaged();
+            var procedure = driver.GetProcedure("sp_inout", ConfigurationManager.ConnectionStrings[dbName].ConnectionString);
+
+            var p1 = procedure.FindParameter("x");
+            Assert.True(p1.Name.Equals("x", StringComparison.InvariantCultureIgnoreCase), "x.Name");
+            Assert.True(p1.Direction == ParameterDirection.Input, "x.Direction");
+            Assert.True(p1.DbType == DbType.Int32 || p1.DbType == DbType.Decimal, "x.DbType");
+
+            var p2 = procedure.FindParameter("y");
+            Assert.True(p2.Name.Equals("y", StringComparison.InvariantCultureIgnoreCase), "y.Name");
+            Assert.True(p2.Direction == ParameterDirection.InputOutput, "x.Direction");
+            Assert.True(p2.DbType == DbType.Int32 || p2.DbType == DbType.Decimal, "x.DbType");
+
+            var p3 = procedure.FindParameter("s");
+            Assert.True(p3.Name.Equals("s", StringComparison.InvariantCultureIgnoreCase), "s.Name");
+            Assert.True(p3.Direction == ParameterDirection.Output, "x.Direction");
+            Assert.True(p3.DbType == DbType.Int32 || p3.DbType == DbType.Decimal, "x.DbType");
+        }
     }
 }
