@@ -131,6 +131,17 @@ namespace Kiss.Data.Driver
                 throw new Exception("columns to insert can not be empty");
             }
 
+            WriteInsertValues(insert);
+
+            if (!string.IsNullOrEmpty(insert.Output))
+            {
+                VisitReturing(insert);
+            }
+            VisitEndStatement();
+        }
+
+        protected virtual void WriteInsertValues(Insert insert)
+        {
             Writer.WriteN(Ansi.InsertInto, Driver.Dialecter.QuoteIdentifer(insert.Table.Name));
             Writer.OpenParentheses();
             for (var i = 0; i < insert.Sets.Count; i++)
@@ -143,7 +154,7 @@ namespace Kiss.Data.Driver
                 VisitColumn(insert.Sets[i].Column);
             }
             Writer.CloseParentheses();
-
+            VisitOutput(insert);
             Writer.LineBreak();
             Writer.Write(Ansi.Values);
             Writer.OpenParentheses();
@@ -157,7 +168,27 @@ namespace Kiss.Data.Driver
                 VisitExp(insert.Sets[i].Value);
             }
             Writer.CloseParentheses();
-            VisitEndStatement();
+        }
+
+        /// <summary>
+        /// VisitReturing
+        /// </summary>
+        /// <param name="insert"></param>
+        protected virtual void VisitReturing(Insert insert)
+        {
+            Writer.Write(blank);
+            Writer.LineBreak();
+            Writer.Write("RETURNING " + insert.Output);
+            Writer.Write(blank);
+        }
+
+        /// <summary>
+        /// VisitOutput
+        /// </summary>
+        /// <param name="insert"></param>
+        protected virtual void VisitOutput(Insert insert)
+        {
+            return;
         }
 
         /// <summary>

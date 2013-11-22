@@ -145,7 +145,16 @@ namespace Kiss.Data.Driver
         {
             if(parameterRegex == null)
             {
-                parameterRegex = new Regex(Dialecter.ParameterPrefix() + @"\w*");
+                var c = Dialecter.ParameterPrefix();
+                if (c == '?')
+                {
+                    parameterRegex = new Regex(@"\" + c + @"\w*");
+                }
+                else
+                {
+                    parameterRegex = new Regex(c + @"\w*");
+                }
+                
             }
             return parameterRegex;
         }
@@ -471,7 +480,7 @@ namespace Kiss.Data.Driver
         /// <param name="size"></param>
         /// <param name="precision"></param>
         /// <param name="scale"></param>
-        protected virtual void SetParameterProviderType(DbParameter parameter, int providerDbType, int? size, byte? precision, byte? scale)
+        public virtual void SetParameterProviderType(DbParameter parameter, int providerDbType, int? size, byte? precision, byte? scale)
         {
             SetParameterProviderDbType(parameter, providerDbType);
             if (size.HasValue)
@@ -493,7 +502,7 @@ namespace Kiss.Data.Driver
         /// </summary>
         /// <param name="parameter"></param>
         /// <param name="providerDbType"></param>
-        protected virtual void SetParameterProviderDbType(DbParameter parameter, int providerDbType)
+        public virtual void SetParameterProviderDbType(DbParameter parameter, int providerDbType)
         {
 
         }

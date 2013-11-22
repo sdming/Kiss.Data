@@ -10,6 +10,7 @@ using Kiss.Data;
 using Kiss.DataTest.Expression;
 using Kiss.DataTest.Driver;
 using System.Configuration;
+using Kiss.DataTest.Entity;
 
 namespace Kiss.DataTest
 {
@@ -22,7 +23,13 @@ namespace Kiss.DataTest
 
         static void Main(string[] args)
         {
-          
+            TestActiveEntityOracle t = new TestActiveEntityOracle();
+            t.TestDelete();
+            t.TestAdd();
+            t.TestQuery();
+            t.TestUpdate();
+
+            return;
             RunAll();
             Console.WriteLine("press ENTER to exit");
             Console.ReadLine();

@@ -29,7 +29,14 @@ namespace Kiss.Data
     public class DbColumnAttribute : Attribute
     {
         public string Name { get; set; }
-        //public DbType? DbType { get; set; }
+        public bool IsKey { get; set; }
+        public bool UpdateAble { get; set; }
+        public bool InsertAble { get; set; }
+
+        public DbColumnAttribute()
+        {
+            IsKey = false;
+        }
     }
 
 }

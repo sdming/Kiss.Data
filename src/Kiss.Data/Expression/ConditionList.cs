@@ -30,6 +30,14 @@ namespace Kiss.Data.Expression
             return Conditions == null || Conditions.Count == 0;
         }
 
+        protected void Ensure()
+        {
+            if (this.Conditions == null)
+            {
+                this.Conditions = new List<ISqlExpression>();
+            }
+        }
+
         /// <summary>
         /// dump as string
         /// </summary>
@@ -90,6 +98,7 @@ namespace Kiss.Data.Expression
         {
             if (needLogicOperator)
             {
+                Ensure();
                 Conditions.Add(SqlOperator.And);
             }
         }
@@ -100,10 +109,7 @@ namespace Kiss.Data.Expression
         /// <param name="expression"></param>
         public void Append(ISqlExpression expression)
         {
-            if (Conditions == null)
-            {
-                Conditions = new List<ISqlExpression>();
-            }
+            Ensure();
             CheckLogicOperator();
             Conditions.Add(expression);
             needLogicOperator = true;
@@ -127,6 +133,7 @@ namespace Kiss.Data.Expression
         {
             if (needLogicOperator)
             {
+                Ensure();
                 Conditions.Add(SqlOperator.And);
                 needLogicOperator = false;
             }
@@ -139,6 +146,7 @@ namespace Kiss.Data.Expression
         {
             if (needLogicOperator)
             {
+                Ensure();
                 Conditions.Add(SqlOperator.Or);
                 needLogicOperator = false;
             }
@@ -149,6 +157,7 @@ namespace Kiss.Data.Expression
         /// </summary>
         public void OpenParentheses()
         {
+            Ensure();
             CheckLogicOperator();
             Conditions.Add(SqlOperator.OpenParentheses);
             needLogicOperator = false;
@@ -159,6 +168,7 @@ namespace Kiss.Data.Expression
         /// </summary>
         public void CloseParentheses()
         {
+            Ensure();
             Conditions.Add(SqlOperator.CloseParentheses);
             needLogicOperator = true;
         }

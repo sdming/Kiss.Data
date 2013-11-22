@@ -10,13 +10,13 @@ namespace Kiss.Core.Reflection
 {
     public class MemberMeta
     {
-        public enum MemberMetaType
-        {
-            Property = 0,
-            Field = 1,
-            Event = 2,
-            Method = 3,
-        }
+        //public enum MemberMetaType
+        //{
+        //    Property = 0,
+        //    Field = 1,
+        //    Event = 2,
+        //    Method = 3,
+        //}
 
         public string Name { get; internal set; }
         public int Index { get; internal set; }
@@ -27,7 +27,7 @@ namespace Kiss.Core.Reflection
         public bool CanWrite { get; internal set; }
         public bool IsNullable { get; internal set; }
         public bool IsNullAssignable { get; internal set; }
-        internal MemberMetaType MetaType { get; set; }
+        internal MemberTypes MetaType { get; set; }
 
         internal Action<object, object> setter;
         internal Func<object, object> getter;
@@ -36,6 +36,7 @@ namespace Kiss.Core.Reflection
 
         internal MemberMeta(Type objectType, MemberInfo member)
         {
+            this.Name = member.Name;
             this.MemberInfo = member;
             this.MemberType = TypeSystem.GetMemberType(member);
             this.MemberTypeCode = Type.GetTypeCode(MemberType);
@@ -45,14 +46,14 @@ namespace Kiss.Core.Reflection
             FieldInfo fi = member as FieldInfo;
             if (fi != null)
             {
-                this.MetaType = MemberMetaType.Field;
+                this.MetaType = MemberTypes.Field;
                 CanRead = fi.IsPublic;
                 CanWrite = fi.IsPublic && !TypeSystem.IsReadOnly(member);
             }
             else
             {
                 PropertyInfo pi = member as PropertyInfo;
-                this.MetaType = MemberMetaType.Property;
+                this.MetaType = MemberTypes.Property;
                 MethodInfo getMethod = pi.GetGetMethod();
                 MethodInfo setMethod = pi.GetSetMethod();
                 CanRead = pi.CanRead && getMethod != null && pi.GetGetMethod().IsPublic;

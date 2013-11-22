@@ -56,6 +56,10 @@ namespace Kiss.Core.Reflection
 
         private int GetIndex(string memberName)
         {
+            if (string.IsNullOrEmpty(memberName))
+            {
+                return -1;
+            }
             int index;
             if (membersIndex.TryGetValue(memberName, out index))
             {
@@ -94,14 +98,14 @@ namespace Kiss.Core.Reflection
         public IList<PropertyInfo> Properties()
         {
             return members
-                    .Where((x) => x.MetaType == MemberMeta.MemberMetaType.Property)
+                    .Where((x) => x.MetaType == MemberTypes.Property)
                     .Cast<PropertyInfo>().ToList();
         }
 
         public IList<FieldInfo> Fields()
         {
             return members
-                    .Where((x) => x.MetaType == MemberMeta.MemberMetaType.Field)
+                    .Where((x) => x.MetaType == MemberTypes.Field)
                     .Cast<FieldInfo>().ToList();
         }
 

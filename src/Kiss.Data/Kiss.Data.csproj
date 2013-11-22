@@ -12,6 +12,7 @@
     <AssemblyName>Kiss.Data</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -72,6 +73,8 @@
     <Compile Include="Core\TypeSystem.cs" />
     <Compile Include="DataReaderConvert.cs" />
     <Compile Include="DataRecordDynamicWrapper.cs" />
+    <Compile Include="Entity\Entity.cs" />
+    <Compile Include="Entity\LambdaVisitor.cs" />
     <Compile Include="FieldReader.cs" />
     <Compile Include="IContentListener.cs" />
     <Compile Include="NativeSchemaProvider.cs" />
@@ -158,9 +161,7 @@
     <Compile Include="Expression\Where.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IDbRouter.cs" />
-    <Compile Include="IDbSetting.cs" />
     <Compile Include="IDbSchemaProvider.cs" />
-    <Compile Include="ITableShard.cs" />
     <Compile Include="Core\KTimer.cs" />
     <Compile Include="Schema\SqlField.cs" />
     <Compile Include="Trace.cs" />
@@ -177,9 +178,7 @@
     <Content Include="Core\DataAdapter\readme.txt" />
     <Content Include="readme.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Entity\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

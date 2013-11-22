@@ -12,6 +12,35 @@ namespace Kiss.Data.Driver
     internal class MsSqlCompiler : SqlCompiler
     {
         /// <summary>
+        /// VisitOutput
+        /// </summary>
+        /// <param name="insert"></param>
+        protected override void VisitOutput(Insert insert)
+        {
+            if(string.IsNullOrEmpty(insert.Output))
+            {
+                return;
+            }
+            Writer.LineBreak();
+            Writer.Write("OUTPUT ");
+            string[] fields = insert.Output.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            foreach(var f in fields)
+            {
+                Writer.Write("INSERTED."+f.Trim());
+            }
+            Writer.Write(blank);
+        }
+
+        /// <summary>
+        /// VisitReturing
+        /// </summary>
+        /// <param name="insert"></param>
+        protected override void VisitReturing(Insert insert)
+        {
+            return;
+        }
+
+        /// <summary>
         /// VisitUpdate
         /// </summary>
         /// <param name="u"></param>

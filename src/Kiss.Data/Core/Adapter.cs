@@ -14,19 +14,16 @@ namespace Kiss.Core
             return new DictionaryAdapter(data);
         }
 
-        public static IDataObjectAdapter Dictionary(Dictionary<string, object> data)
+        public static IDataObjectAdapter Dictionary(IDictionary<string, object> data)
         {
             return new DictionaryAdapter(data);
         }
 
-        public object Entity()
+        public static IDataObjectAdapter Object(object data)
         {
-            throw new NotImplementedException();
+            return new GenericObjectAdapter(data);
         }
 
-        public object Xml()
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

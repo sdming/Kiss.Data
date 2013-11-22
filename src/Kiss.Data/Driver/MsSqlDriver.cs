@@ -110,7 +110,7 @@ namespace Kiss.Data.Driver
         /// </summary>
         /// <param name="parameter"></param>
         /// <param name="providerDbType"></param>
-        protected override void SetParameterProviderDbType(DbParameter parameter, int providerDbType)
+        public override void SetParameterProviderDbType(DbParameter parameter, int providerDbType)
         {
             SqlParameter p = (SqlParameter)parameter;
             p.SqlDbType = (SqlDbType)providerDbType;

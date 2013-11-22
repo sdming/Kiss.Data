@@ -73,6 +73,7 @@ namespace Kiss.Data
                 column.SourceIndex = i;
                 column.SourceType = reader.GetFieldType(i);
                 column.SourceTypeCode = Type.GetTypeCode(reader.GetFieldType(i));
+                Columns[i] = column;
 
                 string targetName = reader.GetName(i);
                 if (mapping != null)
@@ -80,9 +81,15 @@ namespace Kiss.Data
                     targetName = mapping(targetName);
                 }
 
-                column.TargetMeta = TargetMeta.TryGetMember(targetName);
-                column.Enable = column.TargetMeta != null;
-                Columns[i] = column;
+                if (string.IsNullOrEmpty(targetName))
+                {
+                    column.Enable = false;
+                }
+                else
+                {
+                    column.TargetMeta = TargetMeta.TryGetMember(targetName);
+                    column.Enable = column.TargetMeta != null;
+                }
 
                 if (!column.Enable)
                 {
@@ -130,19 +137,34 @@ namespace Kiss.Data
             DbFieldReader fieldReader = new DbFieldReader(reader);
             List<T> list = new List<T>();
 
-            while (reader.Read())
+            try
             {
-                T item;
-                if (IsAnonymous)
+                while (reader.Read())
                 {
-                    item = CreateAnonymous(reader);
+                    T item;
+                    if (IsAnonymous)
+                    {
+                        item = CreateAnonymous(reader);
+                    }
+                    else
+                    {
+                        item = CreateClass(fieldReader);
+                    }
+
+                    list.Add(item);
                 }
-                else
+            }
+            catch 
+            {
+                //log excetion ??
+                throw;
+            }
+            finally
+            {
+                if (!reader.IsClosed)
                 {
-                    item = CreateClass(fieldReader);
+                    reader.Close();
                 }
-            
-                list.Add(item);
             }
 
             return list;

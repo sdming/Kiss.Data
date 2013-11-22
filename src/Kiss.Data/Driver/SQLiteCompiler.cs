@@ -12,6 +12,19 @@ namespace Kiss.Data.Driver
     public class SQLiteCompiler : SqlCompiler
     {
         /// <summary>
+        /// VisitReturing
+        /// </summary>
+        /// <param name="insert"></param>
+        protected override void VisitReturing(Insert insert)
+        {
+            Writer.Write(blank);
+            Writer.Write(Ansi.StatementSplit);
+            Writer.LineBreak();
+            Writer.Write("select last_insert_rowid()  ");
+            Writer.Write(blank);
+        }
+
+        /// <summary>
         /// VisitDelete
         /// </summary>
         /// <param name="d"></param>

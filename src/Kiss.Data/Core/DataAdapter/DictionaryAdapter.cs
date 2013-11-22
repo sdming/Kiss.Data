@@ -7,14 +7,14 @@ namespace Kiss.Core.DataAdapter
 {
     public class DictionaryAdapter : IDataObjectAdapter
     {
-        private Dictionary<string, object> data;
+        private IDictionary<string, object> data;
 
-        public Dictionary<string, object> Data
+        public IDictionary<string, object> Data
         {
             get { return this.data; }
         }
 
-        public DictionaryAdapter(Dictionary<string, object> data)
+        public DictionaryAdapter(IDictionary<string, object> data)
         {
             if (data == null)
             {

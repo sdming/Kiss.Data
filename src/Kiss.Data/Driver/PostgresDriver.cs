@@ -136,7 +136,7 @@ namespace Kiss.Data.Driver
         /// </summary>
         /// <param name="parameter"></param>
         /// <param name="providerDbType"></param>
-        protected override void SetParameterProviderDbType(DbParameter parameter, int providerDbType)
+        public override void SetParameterProviderDbType(DbParameter parameter, int providerDbType)
         {
             NpgsqlParameter p = (NpgsqlParameter)parameter;
             p.NpgsqlDbType = (NpgsqlTypes.NpgsqlDbType)providerDbType;

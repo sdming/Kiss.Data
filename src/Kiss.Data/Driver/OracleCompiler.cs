@@ -115,21 +115,73 @@ namespace Kiss.Data.Driver
 
         }
 
-//        SELECT * FROM
-//(
-//SELECT A.*, rownum r
-//FROM
-//(
-//SELECT *
-//FROM a_matrix_navigation_map
+        /// <summary>
+        /// VisitInsert
+        /// </summary>
+        /// <param name="insert"></param>
+        protected override void VisitInsert(Insert insert)
+        {
+            if (string.IsNullOrEmpty(insert.Output))
+            {
+                base.VisitInsert(insert);
+            }
 
-//) A
-//WHERE rownum <= 10
-//) B
-//WHERE r > 0
+            Writer.Write("DECLARE ");
+            string[] names = insert.Output.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            foreach (var name in names)
+            {
+                Writer.Write("r_p_" + name + " NUMBER " + " ; ");
+            }
+            Writer.LineBreak();
+            Writer.Write("begin \r\n");
+            WriteInsertValues(insert);
+            Writer.LineBreak();
+            
+            var parameter = Command.CreateParameter();
+            parameter.ParameterName = ":p_return_refcursor";
+            parameter.Direction = System.Data.ParameterDirection.Output;
+            Driver.SetParameterProviderDbType(parameter, 121); //RefCursor
+            Command.Parameters.Add(parameter);
 
+            Writer.Write("returning ");
+            for(var i = 0 ; i< names.Length; i++)
+            {
+                if(i > 0)
+                {
+                    Writer.Comma();
+                }
+                Writer.Write(names[i]);                
+            }
+            Writer.Write(" into ");
+            for(var i = 0 ; i< names.Length; i++)
+            {
+                if(i > 0)
+                {
+                    Writer.Comma();
+                }
+                Writer.Write("r_p_" + names[i]);                
+            }
+            Writer.Write(" ; ");
+            Writer.LineBreak();
+            Writer.WriteN("open", parameter.ParameterName, "for select ");
+            for(var i = 0 ; i< names.Length; i++)
+            {
+                if(i > 0)
+                {
+                    Writer.Comma();
+                }
+                Writer.WriteN("r_p_" + names[i], "as", names[i]);                
+            }
+            Writer.Write(" from dual; ");
+            Writer.LineBreak();
+            Writer.Write("end; ");
+            VisitEndStatement();
+        }
 
-        
+        protected void SetParameterDbType(System.Data.IDataParameter parameter, string dbType)
+        {
+            parameter.GetType().GetProperty("OracleDbType");
+        }
 
     }
 }

@@ -26,19 +26,20 @@ namespace Kiss.DataTest.Driver
                 object v = TypeData.GetTypeValue(t, targetType);
                 insert.Set(column, v);
 
-                object key = Guid.NewGuid();
-                string keyColumn = "cguid";
-                if (column == keyColumn)
-                {
-                    keyColumn = "cstring";
-                    key = key.ToString();
-                }
-                insert.Set(keyColumn, key);
+                object key = null;
+                string keyColumn = "pk";                
+                insert.Returning(keyColumn);
                 
                 object actual = null;
                 using (DbContent db = new DbContent(DbName()))
                 {
-                    db.ExecuteNonQuery(insert);
+                    key = db.ExecuteScalar(insert);
+                    //var reader = db.ExecuteReader(insert);
+                    //while (reader.Read())
+                    //{
+                    //    key = reader.GetValue(0);
+                    //}
+
                     actual = db.Table("ttable").ReadCell(column, keyColumn, key);
                 }
                 object want = DataConvert.ChangeTypeTo(v, actual.GetType());
@@ -52,7 +53,7 @@ namespace Kiss.DataTest.Driver
             }
         }
 
-        public virtual void TestInsert()
+        protected virtual void TestInsert()
         {
             DoInsertColumn("cbool", typeof(bool), "bool,string");
             DoInsertColumn("cint", typeof(int), "bool,numeric,string");
@@ -75,7 +76,7 @@ namespace Kiss.DataTest.Driver
         }
 
         [Test]
-        public override void TestInsert()
+        public void Test()
         {
             base.TestInsert();
         }
@@ -116,7 +117,7 @@ namespace Kiss.DataTest.Driver
     {
         protected override string DbName()
         {
-            return "mysql";
+            return "postgres";
         }
 
         [Test]

@@ -187,13 +187,16 @@ namespace Kiss.Data
                 }
                 else
                 {
-                    DataReaderConvert<T> convert = new DataReaderConvert<T>(reader);
+                    DataReaderConvert<T> convert = new DataReaderConvert<T>(reader, mapping);
                     return convert.Convert(reader);
                 }
             }
             finally
             {
-                reader.Close();
+                if (!reader.IsClosed)
+                {
+                    reader.Close();
+                }
             }
         }
 

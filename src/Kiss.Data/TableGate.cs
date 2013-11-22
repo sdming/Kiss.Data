@@ -87,6 +87,11 @@ namespace Kiss.Data
             return Delete(BuildWhere(whereColumn1, whereOp1, whereValue1, whereColumn2, whereOp2, whereValue2));
         }
 
+        internal int Delete(Dictionary<string,object> where)
+        {
+            return Delete(BuildWhere(where));
+        }
+
         public int Delete(Where where)
         {
             Delete exp = new Expression.Delete(tableName);
@@ -180,6 +185,11 @@ namespace Kiss.Data
         public IDataReader Read(string whereColumn1, SqlOperator whereOp1, object whereValue1, string whereColumn2, SqlOperator whereOp2, object whereValue2)
         {
             return Read(BuildWhere(whereColumn1, whereOp1, whereValue1, whereColumn2, whereOp2, whereValue2));
+        }
+
+        internal IDataReader Read(Dictionary<string, object> where)
+        {
+            return Read(BuildWhere(where));
         }
 
         public IDataReader Read(Where where)
@@ -307,24 +317,45 @@ namespace Kiss.Data
             return content.ExecuteNonQuery(exp);
         }
 
+        internal int Update(IDataObjectAdapter data, Dictionary<string, object> where, Func<string, string> mapping, IEnumerable<string> include, IEnumerable<string> exclude)
+        {
+            var w = BuildWhere(where);
+            return Update(data, w, mapping, include, exclude);
+        }
+
         #endregion
      
         #region insert
 
         public object Insert(IDataObjectAdapter data)
         {
-            return Insert(data, null, null, null);
+            return Insert(data, null, null, null, null);
+        }
+
+        public object Insert(IDataObjectAdapter data, string output)
+        {
+            return Insert(data, null, null, null, output);
         }
 
         public object Insert(IDataObjectAdapter data, Func<string, string> mapping, IEnumerable<string> include, IEnumerable<string> exclude)
+        {
+            return Insert(data, mapping, include, exclude, null);
+        }
+
+        public object Insert(IDataObjectAdapter data, Func<string, string> mapping, IEnumerable<string> include, IEnumerable<string> exclude, string output)
         {
             Insert exp = new Insert(tableName);
 
             if (!ignoreSchema)
             {
+                string autoIncrementColumn = null;
                 for (var i = 0; i < schema.Columns.Count; i++)
                 {
                     var col = schema.Columns[i];
+                    if (col.IsAutoIncrement)
+                    {
+                        autoIncrementColumn = col.Name;
+                    }
                     if(col.IsAutoIncrement || col.IsReadOnly)
                     {
                         continue;
@@ -354,12 +385,28 @@ namespace Kiss.Data
                     }
                     exp.Set(new Set(col.Name, p));
                 }
+
+                //
+                if (!string.IsNullOrEmpty(output))
+                {
+                    string outputColumn = GetFieldName(output, mapping, null, null);
+                    exp.Returning(outputColumn);
+                }
+                else
+                {
+                    //auto add identity??
+                    exp.Returning(autoIncrementColumn);
+                }
             }
             else
             {
                 foreach(string name in data.Fields())
                 {
                     exp.Set(name, data.Get(name));
+                }
+                if (!string.IsNullOrEmpty(output))
+                {
+                    exp.Returning(output);
                 }
             }
             
@@ -384,6 +431,22 @@ namespace Kiss.Data
             BuildWhereColumn(where, column2, op2, value2);
             return where;
         }
+
+        private Where BuildWhere(Dictionary<string, object> where)
+        {
+            if (where == null)
+            {
+                return null;
+            }
+
+            Where w = new Where();
+            foreach (var p in where)
+            {
+                BuildWhereColumn(w, p.Key, SqlOperator.EqualsTo, p.Value); 
+            }
+            return w;
+        }
+
 
         private void BuildWhereColumn(Where where, string column, SqlOperator op, object value)
         {

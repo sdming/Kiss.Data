@@ -22,6 +22,11 @@ namespace Kiss.Data.Expression
         public List<Set> Sets { get; set; }
 
         /// <summary>
+        /// Output
+        /// </summary>
+        public string Output { get; set; }
+
+        /// <summary>
         /// Insert
         /// </summary>
         /// <param name="tableName"></param>
@@ -59,6 +64,17 @@ namespace Kiss.Data.Expression
         public Insert Set(Set set)
         {
             Sets.Add(set);
+            return this;
+        }
+
+        /// <summary>
+        /// return inserted data
+        /// </summary>
+        /// <param name="column"></param>
+        /// <returns></returns>
+        public Insert Returning(string column)
+        {
+            this.Output = column;
             return this;
         }
 

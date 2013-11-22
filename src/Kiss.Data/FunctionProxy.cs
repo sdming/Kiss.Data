@@ -11,6 +11,9 @@ namespace Kiss.Data
 {
     public class FunctionProxy<T> : RealProxy
     {
+        private static Type procedureType = typeof(DbProcedureAttribute);
+        private static Type parameterType = typeof(DbParameterAttribute);
+
         public string DbName {get; set; }
         public DbContent DbContent { get; set; }
 
@@ -41,29 +44,29 @@ namespace Kiss.Data
             return (T)(new FunctionProxy<T>(conent).GetTransparentProxy());
         }
 
-        protected T TryFindAttribute<T>(MemberInfo info)
+        protected object TryFindAttribute(MemberInfo info, Type attributeType)
         {
-            var attributes = info.GetCustomAttributes(typeof(T), false);
+            var attributes = info.GetCustomAttributes(attributeType, false);
             if (attributes == null || attributes.Length == 0)
             {
-                return default(T);
+                return null;
             }
-            return (T)attributes[0];
+            return attributes[0];
         }
 
-        protected T TryFindAttribute<T>(ParameterInfo info)
+        protected object TryFindAttribute(ParameterInfo info, Type attributeType)
         {
             var attributes = info.GetCustomAttributes(typeof(T), false);
             if (attributes == null || attributes.Length == 0)
             {
-                return default(T);
+                return null;
             }
-            return (T)attributes[0];
+            return attributes[0];
         }
 
         protected string GetProcedureName(IMethodCallMessage method)
         {
-            var attribute = TryFindAttribute<DbProcedureAttribute>(method.MethodBase);
+            var attribute = TryFindAttribute(method.MethodBase, procedureType) as DbProcedureAttribute;
             if (attribute == null)
             {
                 return method.MethodName;
@@ -73,7 +76,7 @@ namespace Kiss.Data
 
         protected string GetParameterName(ParameterInfo parameter)
         {
-            var attribute = TryFindAttribute<DbParameterAttribute>(parameter);
+            var attribute = TryFindAttribute(parameter, parameterType) as DbParameterAttribute;
             if (attribute == null)
             {
                 return parameter.Name;
@@ -90,7 +93,7 @@ namespace Kiss.Data
                 for (var i = 0; i < parameters.Length && i< method.Args.Length; i++)
                 {
                     var p = parameters[i];
-                    var attribute = TryFindAttribute<DbParameterAttribute>(p);
+                    var attribute = TryFindAttribute(p, parameterType) as DbParameterAttribute;
                     if (attribute == null)
                     {
                         data.Add(p.Name, method.Args[i]);
@@ -120,7 +123,7 @@ namespace Kiss.Data
                 for (var i = 0; i < parameterInfos.Length && i < methodCall.Args.Length; i++)
                 {
                     var p = parameterInfos[i];
-                    var attribute = TryFindAttribute<DbParameterAttribute>(p);
+                    var attribute = TryFindAttribute(p, parameterType) as DbParameterAttribute;
                     if (attribute == null)
                     {
                         data.Add(p.Name, methodCall.Args[i]);

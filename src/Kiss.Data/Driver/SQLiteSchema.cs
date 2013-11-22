@@ -5,6 +5,7 @@ using System.Text;
 using System.Data.SQLite;
 using System.Data;
 using Kiss.Data.Schema;
+using Kiss.Data.Expression;
 
 namespace Kiss.Data.Driver
 {
@@ -13,7 +14,7 @@ namespace Kiss.Data.Driver
     /// </summary>
     public class SQLiteSchema : SqlSchema
     {
-        
+
 
     }
 }

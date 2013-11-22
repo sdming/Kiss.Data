@@ -857,6 +857,16 @@ namespace Kiss.Data
             return InternalExecuteReader(expression);
         }
 
+        /// <summary>
+        /// query expression 
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        public IDataReader ExecuteReader(Insert expression)
+        {
+            return InternalExecuteReader(expression);
+        }
+
         #endregion
 
         #region internal execute
