@@ -164,7 +164,7 @@ MIN([cint]) <= 501
 AND
 MAX([cint]) >= @P_88 
 ORDER BY [cint] ASC, [cfloat] ASC, [cnumeric] DESC, [cstring] DESC, [cdatetime] ASC 
-) [_kiss_page] WHERE [_kiss_rownumber] >= 3 AND  [_kiss_rownumber] < 104  ;
+) [_kiss_page] WHERE [_kiss_rownumber] > 3 AND  [_kiss_rownumber] <= 104  ;
 ";
 
             //Console.WriteLine(command.CommandText);

@@ -144,6 +144,21 @@ namespace Kiss.Data
             return DataConvert.ToList<T>(reader);
         }
 
+        public IList<T> ReadColumn<T>(string column, bool distinct, Where where, OrderBy orderBy, int offset, int count)
+        {
+            Query exp = new Query(tableName);
+            if (distinct)
+            {
+                exp.Distinct();
+            }
+            exp.Select.Column(column);
+            exp.Where = where;
+            exp.OrderBy = orderBy;
+            exp.Limit(offset, count);
+            IDataReader reader = content.ExecuteReader(exp);
+            return DataConvert.ToList<T>(reader);
+        }
+
         public int ReadCount(string whereColumn, object whereValue)
         {
             return ReadCount(whereColumn, SqlOperator.EqualsTo, whereValue, null, null, null);
@@ -185,6 +200,15 @@ namespace Kiss.Data
         public IDataReader Read(string whereColumn1, SqlOperator whereOp1, object whereValue1, string whereColumn2, SqlOperator whereOp2, object whereValue2)
         {
             return Read(BuildWhere(whereColumn1, whereOp1, whereValue1, whereColumn2, whereOp2, whereValue2));
+        }
+
+        public IDataReader ReadLimit(Where where, OrderBy orderBy, int offste, int count )
+        {
+            Query exp = new Query(tableName);
+            exp.Where = where;
+            exp.OrderBy = orderBy;
+            exp.Limit(offste, count);        
+            return content.ExecuteReader(exp);
         }
 
         internal IDataReader Read(Dictionary<string, object> where)

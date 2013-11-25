@@ -197,6 +197,7 @@ namespace Kiss.Data
                 {
                     reader.Close();
                 }
+                reader.Dispose();
             }
         }
 

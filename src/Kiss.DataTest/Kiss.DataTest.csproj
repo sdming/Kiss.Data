@@ -100,6 +100,7 @@
     <Compile Include="ContentListener.cs" />
     <Compile Include="DataType.cs" />
     <Compile Include="DataTypeClass.cs" />
+    <Compile Include="DataUtils.cs" />
     <Compile Include="Driver\TestInsert.cs" />
     <Compile Include="Driver\TestMsSql.cs" />
     <Compile Include="Driver\TestMySql.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Driver\TestSQLite.cs" />
     <Compile Include="Driver\TestPostgres.cs" />
     <Compile Include="Driver\TestOracle.cs" />
+    <Compile Include="Driver\TestText.cs" />
     <Compile Include="Entity\CEntity.cs" />
     <Compile Include="Entity\TestLambdaVisitor.cs" />
     <Compile Include="ExpressionData.cs" />

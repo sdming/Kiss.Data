@@ -143,7 +143,7 @@ namespace Kiss.Data.Driver
             }
             VisitOrderBy(query.OrderBy);
 
-            Writer.Write(string.Format("\r\n) [_kiss_page] WHERE [_kiss_rownumber] >= {0} AND  [_kiss_rownumber] < {1} ", 
+            Writer.Write(string.Format("\r\n) [_kiss_page] WHERE [_kiss_rownumber] > {0} AND  [_kiss_rownumber] <= {1} ", 
                 query.Offset, query.Offset + query.Count));
 
             VisitEndStatement();

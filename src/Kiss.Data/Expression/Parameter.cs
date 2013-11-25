@@ -62,6 +62,7 @@ namespace Kiss.Data.Expression
         /// </summary>
         public Parameter()
         {
+            this.Direction = ParameterDirection.Input;
         }
 
         /// <summary>
@@ -73,6 +74,7 @@ namespace Kiss.Data.Expression
         {
             this.Name = name;
             this.Value = value;
+            this.Direction = ParameterDirection.Input;
         }
 
         /// <summary>
