@@ -1,11 +1,10 @@
 ﻿todo:
 ===
 添加 text 测试 
-post gres entity 测试错误
-oracle entity 测试 ColNumeric 错误
 
-===
 Shard, Route
+===
+
 
 
 FAQ

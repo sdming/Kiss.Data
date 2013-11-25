@@ -257,6 +257,19 @@ namespace Kiss.Data.Driver
 
         }
 
+        public virtual void GetColumns(SqlDriver driver, string tableName, string connectionString)
+        {            
+            using (DbConnection connection = driver.CreateConnection())
+            {
+                connection.ConnectionString = connectionString;
+                connection.Open();
+
+                string[] restriction = new string[] { null, tableName, null };
+                var table = connection.GetSchema("Columns", restriction);
+            }
+
+        }
+
 
         /// <summary>
         /// get table schame

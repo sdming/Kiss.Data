@@ -22,106 +22,106 @@ namespace Kiss.DataTest.Driver
             var command = driver.Compile(query, null);
 
             string expected = @"
-SELECT DISTINCT ""cbool"", ""cint"", ""cfloat"", ""cdatetime"", ""cnumeric"" AS ""a_cnumeric"", ""cstring"" AS ""a_cstring"", COUNT(""cint"") AS ""avg_cint"", COUNT(""cint"") AS ""count_cint"", SUM(""cint"") AS ""sum_cint"", MIN(""cint"") AS ""min_cint"", MAX(""cint"") AS ""max_cint"", cint - 1 AS ""exp_cint"" 
-FROM ""ttable""
+SELECT DISTINCT cbool, cint, cfloat, cdatetime, cnumeric AS a_cnumeric, cstring AS a_cstring, COUNT(cint) AS avg_cint, COUNT(cint) AS count_cint, SUM(cint) AS sum_cint, MIN(cint) AS min_cint, MAX(cint) AS max_cint, cint - 1 AS exp_cint 
+FROM ttable
 WHERE
-""cbool"" = @P_0
+cbool = @P_0
 AND
-""cbool"" <> @P_1
+cbool <> @P_1
 AND
-""cstring"" < @P_2
+cstring < @P_2
 AND
-""cstring"" <= @P_3
+cstring <= @P_3
 AND
-""cstring"" > @P_4
+cstring > @P_4
 AND
-""cstring"" >= @P_5
+cstring >= @P_5
 AND
-""cstring"" = @P_6
+cstring = @P_6
 AND
-""cstring"" <> @P_7
+cstring <> @P_7
 AND
-""cstring"" IN (@P_8, @P_9, @P_10)
+cstring IN (@P_8, @P_9, @P_10)
 AND
-""cstring"" NOT IN (@P_11, @P_12, @P_13)
+cstring NOT IN (@P_11, @P_12, @P_13)
 AND
-""cstring"" LIKE @P_14
+cstring LIKE @P_14
 AND
-""cstring"" NOT LIKE @P_15
+cstring NOT LIKE @P_15
 AND
-""cint"" < @P_16
+cint < @P_16
 AND
-""cint"" <= @P_17
+cint <= @P_17
 AND
-""cint"" > @P_18
+cint > @P_18
 AND
-""cint"" >= @P_19
+cint >= @P_19
 AND
-""cint"" = @P_20
+cint = @P_20
 AND
-""cint"" <> @P_21
+cint <> @P_21
 AND
-""cint"" IN (@P_22, @P_23, @P_24, @P_25, @P_26)
+cint IN (@P_22, @P_23, @P_24, @P_25, @P_26)
 AND
-""cint"" NOT IN (@P_27, @P_28, @P_29, @P_30, @P_31)
+cint NOT IN (@P_27, @P_28, @P_29, @P_30, @P_31)
 AND
-""cfloat"" < @P_32
+cfloat < @P_32
 AND
-""cfloat"" <= @P_33
+cfloat <= @P_33
 AND
-""cfloat"" > @P_34
+cfloat > @P_34
 AND
-""cfloat"" >= @P_35
+cfloat >= @P_35
 AND
-""cfloat"" = @P_36
+cfloat = @P_36
 AND
-""cfloat"" <> @P_37
+cfloat <> @P_37
 AND
-""cfloat"" IN (@P_38, @P_39, @P_40, @P_41, @P_42)
+cfloat IN (@P_38, @P_39, @P_40, @P_41, @P_42)
 AND
-""cfloat"" NOT IN (@P_43, @P_44, @P_45, @P_46, @P_47)
+cfloat NOT IN (@P_43, @P_44, @P_45, @P_46, @P_47)
 AND
-""cnumeric"" < @P_48
+cnumeric < @P_48
 AND
-""cnumeric"" <= @P_49
+cnumeric <= @P_49
 AND
-""cnumeric"" > @P_50
+cnumeric > @P_50
 AND
-""cnumeric"" >= @P_51
+cnumeric >= @P_51
 AND
-""cnumeric"" = @P_52
+cnumeric = @P_52
 AND
-""cnumeric"" <> @P_53
+cnumeric <> @P_53
 AND
-""cnumeric"" IN (@P_54, @P_55, @P_56, @P_57, @P_58)
+cnumeric IN (@P_54, @P_55, @P_56, @P_57, @P_58)
 AND
-""cnumeric"" NOT IN (@P_59, @P_60, @P_61, @P_62, @P_63)
+cnumeric NOT IN (@P_59, @P_60, @P_61, @P_62, @P_63)
 AND
-""cdatetime"" < @P_64
+cdatetime < @P_64
 AND
-""cdatetime"" <= @P_65
+cdatetime <= @P_65
 AND
-""cdatetime"" > @P_66
+cdatetime > @P_66
 AND
-""cdatetime"" >= @P_67
+cdatetime >= @P_67
 AND
-""cdatetime"" = @P_68
+cdatetime = @P_68
 AND
-""cdatetime"" <> @P_69
+cdatetime <> @P_69
 AND
-""cdatetime"" IN (@P_70, @P_71)
+cdatetime IN (@P_70, @P_71)
 AND
-""cdatetime"" NOT IN (@P_72, @P_73)
+cdatetime NOT IN (@P_72, @P_73)
 AND
-""cguid"" = @P_74
+cguid = @P_74
 AND
-""cguid"" <> @P_75
+cguid <> @P_75
 AND
 (
 	(
-		""cbytes"" IS NULL
+		cbytes IS NULL
 		OR
-		""cbytes"" IS NOT NULL
+		cbytes IS NOT NULL
 	)
 	OR
 	(
@@ -131,37 +131,37 @@ AND
 		AND
 		NOT EXISTS(select count(*) from ttable where cint > 10000)
 		AND
-		""cint"" IN (select cint from ttable)
+		cint IN (select cint from ttable)
 		AND
-		""cint"" NOT IN (select cint from ttable)
+		cint NOT IN (select cint from ttable)
 	)
 ) 
-GROUP BY ""cbool"", ""cint"", ""cnumeric"", ""cstring"", ""cfloat"", ""cdatetime"", cint - 1 
+GROUP BY cbool, cint, cnumeric, cstring, cfloat, cdatetime, cint - 1 
 HAVING
-""cstring"" LIKE @P_76
+cstring LIKE @P_76
 AND
-""cint"" NOT IN (@P_77, @P_78, @P_79, @P_80, @P_81)
+cint NOT IN (@P_77, @P_78, @P_79, @P_80, @P_81)
 AND
 (
-	""cint"" < @P_82
+	cint < @P_82
 	OR
-	""cint"" >= @P_83
+	cint >= @P_83
 )
 AND
-""cnumeric"" = @P_84
+cnumeric = @P_84
 AND
-""cbool"" IS NOT NULL
+cbool IS NOT NULL
 AND
-COUNT(""cint"") < @P_85
+COUNT(cint) < @P_85
 AND
-COUNT(""cint"") > @P_86
+COUNT(cint) > @P_86
 AND
-SUM(""cint"") <> @P_87
+SUM(cint) <> @P_87
 AND
-MIN(""cint"") <= 501
+MIN(cint) <= 501
 AND
-MAX(""cint"") >= @P_88 
-ORDER BY ""cint"" ASC, ""cfloat"" ASC, ""cnumeric"" DESC, ""cstring"" DESC, ""cdatetime"" ASC 
+MAX(cint) >= @P_88 
+ORDER BY cint ASC, cfloat ASC, cnumeric DESC, cstring DESC, cdatetime ASC 
  LIMIT  101  OFFSET 3  ;
 ";
 
@@ -194,7 +194,7 @@ ORDER BY ""cint"" ASC, ""cfloat"" ASC, ""cnumeric"" DESC, ""cstring"" DESC, ""cd
             var command = driver.Compile(insert, null);
 
             string expected = @"
-INSERT INTO ""ttable""(""cbool"", ""cint"", ""cfloat"", ""cnumeric"", ""cstring"", ""cdatetime"", ""cguid"")
+INSERT INTO ttable(cbool, cint, cfloat, cnumeric, cstring, cdatetime, cguid)
 VALUES(@P_0, @P_1, @P_2, @P_3, @P_4, @P_5, @P_6) ;
 ";
 
@@ -228,10 +228,10 @@ VALUES(@P_0, @P_1, @P_2, @P_3, @P_4, @P_5, @P_6) ;
             var command = driver.Compile(update, null);
 
             string expected = @"
-UPDATE ""ttable"" SET
-""cbool"" = @P_0, ""cint"" = @P_1, ""cfloat"" = @P_2, ""cnumeric"" = @P_3, ""cstring"" = @P_4, ""cdatetime"" = @P_5, ""cguid"" = @P_6
+UPDATE ttable SET
+cbool = @P_0, cint = @P_1, cfloat = @P_2, cnumeric = @P_3, cstring = @P_4, cdatetime = @P_5, cguid = @P_6
 WHERE
-""cint"" = @P_7  ;
+cint = @P_7  ;
 ";
             //Console.WriteLine(command.CommandText);
 
@@ -263,9 +263,9 @@ WHERE
             var command = driver.Compile(delete, null);
 
             string expected = @"
-DELETE FROM ""ttable""
+DELETE FROM ttable
 WHERE
-""cint"" = @P_0  ;
+cint = @P_0  ;
 ";
             //Console.WriteLine(command.CommandText);
 

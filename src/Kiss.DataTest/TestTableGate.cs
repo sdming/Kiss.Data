@@ -368,6 +368,7 @@ and
                 t.Insert(data);
                 Assert.AreEqual(AUtils.FS(@"
 INSERT INTO [ttable]([cbool], [cint], [cfloat], [cnumeric], [cstring], [cdatetime], [cguid])
+OUTPUT INSERTED.pk 
 VALUES(@cbool , @cint , @cfloat , @cnumeric , @cstring , @cdatetime , @cguid ) ;
                 "), AUtils.FS(listener.CommandText));
             }
@@ -383,6 +384,7 @@ VALUES(@cbool , @cint , @cfloat , @cnumeric , @cstring , @cdatetime , @cguid ) ;
                 t.Insert(data, ((x) => x == "cint" ? "new_cint" : x), data.Fields(), new string[]{"cguid", "cbytes", "cdatetime"}  );
                 Assert.AreEqual(AUtils.FS(@"
 INSERT INTO [ttable]([cbool], [cint], [cfloat], [cnumeric], [cstring])
+OUTPUT INSERTED.pk 
 VALUES(@cbool , @cint , @cfloat , @cnumeric , @cstring ) ;
                 "), AUtils.FS(listener.CommandText));
             }

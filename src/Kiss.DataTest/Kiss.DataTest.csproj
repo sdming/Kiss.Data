@@ -107,6 +107,7 @@
     <Compile Include="Driver\TestSQLite.cs" />
     <Compile Include="Driver\TestPostgres.cs" />
     <Compile Include="Driver\TestOracle.cs" />
+    <Compile Include="Entity\CEntity.cs" />
     <Compile Include="Entity\TestLambdaVisitor.cs" />
     <Compile Include="ExpressionData.cs" />
     <Compile Include="Expression\BenchExpression.cs" />

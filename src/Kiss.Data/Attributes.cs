@@ -36,6 +36,8 @@ namespace Kiss.Data
         public DbColumnAttribute()
         {
             IsKey = false;
+            UpdateAble = true;
+            InsertAble = true;
         }
     }
 

@@ -56,7 +56,7 @@ namespace Kiss.Data
 
         protected object TryFindAttribute(ParameterInfo info, Type attributeType)
         {
-            var attributes = info.GetCustomAttributes(typeof(T), false);
+            var attributes = info.GetCustomAttributes(attributeType, false);
             if (attributes == null || attributes.Length == 0)
             {
                 return null;

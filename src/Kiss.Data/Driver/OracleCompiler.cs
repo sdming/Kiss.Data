@@ -124,6 +124,7 @@ namespace Kiss.Data.Driver
             if (string.IsNullOrEmpty(insert.Output))
             {
                 base.VisitInsert(insert);
+                return;
             }
 
             Writer.Write("DECLARE ");

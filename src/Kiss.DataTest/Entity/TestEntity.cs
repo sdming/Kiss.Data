@@ -210,7 +210,7 @@ namespace Kiss.DataTest.Entity
                 Assert.AreEqual(entity.Dump(), actual.Dump(), "UpdateFieldsByKey");
 
                 entity.CString = DateTime.Now.Ticks.ToString();
-                entity.CInt = Guid.NewGuid().GetHashCode();
+                entity.CInt = new Random(Guid.NewGuid().GetHashCode()).Next(1, 10000);
                 ae.UpdateFieldsByKey(key, (x) => x.CString, entity.CString, (x) => x.CInt, entity.CInt);
                 actual = ae.QueryByKey(key);
                 Assert.AreEqual(entity.Dump(), actual.Dump(), "UpdateFieldsByKey");

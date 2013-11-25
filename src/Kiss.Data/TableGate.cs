@@ -286,7 +286,7 @@ namespace Kiss.Data
                     }
 
                     bool exist = data.Contains(name);
-                    if (!exist && col.AllowDBNull)
+                    if (!exist )
                     {
                         continue;
                     }
