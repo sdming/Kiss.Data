@@ -11,6 +11,7 @@ using Kiss.DataTest.Expression;
 using Kiss.DataTest.Driver;
 using System.Configuration;
 using Kiss.DataTest.Entity;
+using System.Text.RegularExpressions;
 
 namespace Kiss.DataTest
 {
@@ -23,9 +24,23 @@ namespace Kiss.DataTest
 
         static void Main(string[] args)
         {
+
+            RunDemo();
             RunAll();
             Console.WriteLine("press ENTER to exit");
             Console.ReadLine();
+        }
+
+        static void RunDemo()
+        {
+            var demo = new Demo();
+            demo.Text();
+            demo.Procedure();
+            demo.Insert();
+            demo.Update();
+            demo.Query();
+            demo.Delete();
+
         }
 
         static void BenchAll()

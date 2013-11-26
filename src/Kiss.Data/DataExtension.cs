@@ -22,6 +22,12 @@ namespace Kiss.Data
             return result;
         }
 
+        public static DataTable ToTable(this IDataReader reader)
+        {
+            var table = Utils.Read2Table(reader);
+            return table;
+        }
+
         public static dynamic ToExpando(this IDataReader reader)
         {
             dynamic obj = new ExpandoObject();

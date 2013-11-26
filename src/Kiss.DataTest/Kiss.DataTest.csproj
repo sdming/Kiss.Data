@@ -98,9 +98,9 @@
   <ItemGroup>
     <Compile Include="AUtils.cs" />
     <Compile Include="ContentListener.cs" />
-    <Compile Include="DataType.cs" />
     <Compile Include="DataTypeClass.cs" />
     <Compile Include="DataUtils.cs" />
+    <Compile Include="Demo.cs" />
     <Compile Include="Driver\TestInsert.cs" />
     <Compile Include="Driver\TestMsSql.cs" />
     <Compile Include="Driver\TestMySql.cs" />
@@ -120,6 +120,7 @@
     <Compile Include="Entity\TestEntity.cs" />
     <Compile Include="TestProxy.cs" />
     <Compile Include="TestTableGate.cs" />
+    <Compile Include="TestTemplate.cs" />
     <Compile Include="TestTypeConvert.cs" />
     <Compile Include="TypeData.cs" />
   </ItemGroup>

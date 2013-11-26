@@ -164,6 +164,7 @@
     <Compile Include="IDbSchemaProvider.cs" />
     <Compile Include="Core\KTimer.cs" />
     <Compile Include="Schema\SqlField.cs" />
+    <Compile Include="TextTemplate.cs" />
     <Compile Include="Trace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Schema\SqlColumn.cs" />
