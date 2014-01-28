@@ -28,7 +28,7 @@ namespace Kiss.Data
             StringBuilder sb = new StringBuilder();
             
             int start = 0;
-            start = sql.IndexOf("{", start);
+            start = sql.IndexOf("{{", start);
             if (start < 0)
             {
                 text.Text = sql;
@@ -38,13 +38,13 @@ namespace Kiss.Data
                 text.Text = sql.Substring(0, start);
                 while (start >= 0)
                 {
-                    int end = sql.IndexOf("}", start);
+                    int end = sql.IndexOf("}}", start);
                     if (end <= start)
                     {
                         throw new Exception("invalid text template");
                     }
 
-                    string match = sql.Substring(start + 1, end - start - 1).Trim();
+                    string match = sql.Substring(start + 2, end - start - 2).Trim();
                     if (string.IsNullOrEmpty(match))
                     {
                         throw new Exception("invalid text template");
@@ -102,15 +102,15 @@ namespace Kiss.Data
                     }
 
                     text.Parameters.Add(p);
-                    text.Text = string.Concat(text.Text, "{?", p.Name, "}");
-                    start = sql.IndexOf("{", end);
+                    text.Text = string.Concat(text.Text, "{{", p.Name, "}}");
+                    start = sql.IndexOf("{{", end);
                     if (start > end)
                     {
-                        text.Text = string.Concat(text.Text, sql.Substring(end + 1, start - end - 1));
+                        text.Text = string.Concat(text.Text, sql.Substring(end + 2, start - end - 2));
                     }
-                    else if (start < 0 && end < sql.Length - 1)
+                    else if (start < 0 && end < sql.Length - 2)
                     {
-                        text.Text = string.Concat(text.Text, sql.Substring(end + 1));
+                        text.Text = string.Concat(text.Text, sql.Substring(end + 2));
                         break;                        
                     }
                 }

@@ -53,6 +53,14 @@ namespace Kiss.Data
         protected int connectCount;
         //protected ConnectionState state = ConnectionState.Closed;
 
+        // close connection when dispose
+        private bool forceCloseConnection = true;
+        public bool ForceCloseConnection
+        {
+            get { return forceCloseConnection; }
+            set { forceCloseConnection = value; }
+        }
+
         protected DbConnection UseConnection()
         {
             OpenConnection();
@@ -154,7 +162,7 @@ namespace Kiss.Data
 
         protected void ClearConnection()
         {
-            if (dbConnection != null && !IsUsingConnection)
+            if (dbConnection != null && (ForceCloseConnection || !IsUsingConnection))
             {
                 CloseConnection();
                 dbConnection.Dispose();

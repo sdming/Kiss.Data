@@ -492,12 +492,36 @@ namespace Kiss.Data
             Condition d = new Condition();
             d.Op = op;
             d.Left = new Column(c.Name);
-            Parameter p = new Parameter();
-            parameterIndex++;
-            p.Name = string.Concat(c.Name, "_", parameterIndex);
-            c.Copy(p);
-            p.Value = value;
-            d.Right = p;
+
+            if (value == null)
+            {
+                d.Right = SqlNull.Value;
+            }
+            else 
+            {
+                ISqlExpression exp = value as ISqlExpression;
+                if (exp != null)
+                {
+                    d.Right = exp;
+                }
+                else
+                {
+                    if (op == SqlOperator.In || op == SqlOperator.NotIn)
+                    {
+                        d.Right = new RawValue(value);
+                    }
+                    else
+                    {
+                        Parameter p = new Parameter();
+                        parameterIndex++;
+                        p.Name = string.Concat(c.Name, "_", parameterIndex);
+                        c.Copy(p);
+                        p.Value = value;
+                        d.Right = p;
+                    }
+                }            
+            }
+            
             where.Append(d);
         }
 

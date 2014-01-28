@@ -24,6 +24,10 @@ namespace Kiss.DataTest
 
         static void Main(string[] args)
         {
+            //TestTableGate tt = new TestTableGate();
+            //tt.TestDelete();
+
+            //return;
 
             RunDemo();
             RunAll();

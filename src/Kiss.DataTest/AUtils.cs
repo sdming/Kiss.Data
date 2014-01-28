@@ -70,6 +70,8 @@ namespace Kiss.DataTest
             return s.ToLower().Trim();
         }
 
+        public static string[] IgnoreList = new string[] {"mysql","sqlite","oracle", "postgres" };
+
         public static void RunAllTypes(TextWriter writer)
         {
             var a = System.Reflection.Assembly.GetExecutingAssembly();
@@ -85,6 +87,20 @@ namespace Kiss.DataTest
                     continue;
                 }
 
+                bool ignore = false;
+                foreach (var s in IgnoreList)
+                {
+                    if (t.Name.ToLowerInvariant().Contains(s.ToLowerInvariant()))
+                    {
+                        ignore = true;
+                        break;
+                    }
+                }
+                if (ignore)
+                {
+                    continue;
+                }
+            
                 Console.WriteLine("run:{0}", t.Name);
 
                 writer.WriteLine("\r\nType: {0} ", t.Name);
