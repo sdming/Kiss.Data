@@ -30,6 +30,8 @@ namespace Kiss.Data.Expression
             return Conditions == null || Conditions.IsEmpty();
         }
 
+       
+
         /// <summary>
         /// ToString
         /// </summary>

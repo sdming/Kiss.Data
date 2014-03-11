@@ -8,7 +8,7 @@ using System.Data.Common;
 
 namespace Kiss.Data
 {
-    internal sealed class Utils
+    public sealed class Utils
     {
         /// <summary>
         /// return columns of IDataReader

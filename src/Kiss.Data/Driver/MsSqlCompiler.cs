@@ -107,6 +107,32 @@ namespace Kiss.Data.Driver
                 base.VisitQuery(query);
                 return;
             }
+
+            if (query.Count > 0 && query.Offset <= 0)
+            {
+                Writer.Write(Ansi.Select);
+                Writer.Write(blank);
+                if (query.IsDistinct)
+                {
+                    Writer.Write(Ansi.Distinct);
+                    Writer.Write(blank);
+                }
+                Writer.Write("TOP ", query.Count.ToString(), blank);
+                VisitSelect(query.Select);
+                VisitFrom(query.Table);
+                VisitWhere(query.Where);
+                VisitGroupBy(query.GroupBy);
+
+                if (query.GroupBy != null && !query.GroupBy.IsEmpty())
+                {
+                    VisitHaving(query.Having);
+                }
+                VisitOrderBy(query.OrderBy);
+                VisitEndStatement();
+
+                return;
+            }
+
             
             //select
             Writer.Write("SELECT * FROM ( \r\n");

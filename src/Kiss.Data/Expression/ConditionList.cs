@@ -30,6 +30,20 @@ namespace Kiss.Data.Expression
             return Conditions == null || Conditions.Count == 0;
         }
 
+        /// <summary>
+        /// ItemsCount
+        /// </summary>
+        public int ItemsCount()
+        {
+            if (Conditions == null)
+            {
+                return 0;
+            }
+            return Conditions.Count;
+        }
+
+
+
         protected void Ensure()
         {
             if (this.Conditions == null)

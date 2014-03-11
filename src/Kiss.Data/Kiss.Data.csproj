@@ -66,6 +66,7 @@
     <Compile Include="Core\DataAdapter\GenericObjectAdapter.cs" />
     <Compile Include="Core\DataAdapter\XmlAttributeAdapter.cs" />
     <Compile Include="Core\DataAdapter\XmlElementAdapter.cs" />
+    <Compile Include="Core\DataAdapter\keyValueAdapter.cs" />
     <Compile Include="Core\Reflection\EmitUtils.cs" />
     <Compile Include="Core\Reflection\ExpressionFunc.cs" />
     <Compile Include="Core\Reflection\ILBuilder.cs" />
@@ -178,14 +179,13 @@
     <Compile Include="Driver\SqlWriter.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="XForce\BuckInsert.cs" />
+    <Compile Include="XForce\SmartQuery.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Core\DataAdapter\readme.txt" />
     <Content Include="readme.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="NewFolder1\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
